@@ -12,7 +12,7 @@ export const bot = new TelegramBot(process.env.TELEGRAM_TOKEN ?? "", {
 
 export function startupBot() {
 	console.log("Starting up bot polling...");
-
+	scrapeWebsite("https://www.mangago.me/read-manga/jujutsu_kaisen/")
 	bot.onText(/\/start/, (msg) => {
 		bot.sendMessage(
 			msg.chat.id,
@@ -25,10 +25,10 @@ export function startupBot() {
 		if (msg.text?.toLowerCase().startsWith("scrape")) {
 			bot.sendMessage(msg.chat.id, "scrapping website...");
 
-			bot.sendMessage(
-				msg.chat.id,
-				`Result: ${await scrapeWebsite("https://www.typescriptlang.org/docs/")}`
-			);
+			// bot.sendMessage(
+			// 	msg.chat.id,
+			// 	`Result: ${await scrapeWebsite("https://www.typescriptlang.org/docs/")}`
+			// );
 		}
 	});
 }
