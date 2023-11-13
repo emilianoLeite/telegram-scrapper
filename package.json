@@ -12,7 +12,9 @@
     "format": "prettier --write ."
   },
   "dependencies": {
+    "@types/cheerio": "^0.22.34",
     "axios": "^1.4.0",
+    "cheerio": "^1.0.0-rc.12",
     "dotenv": "^16.0.3",
     "express": "^4.18.1",
     "node-fetch": "^3.3.1",
