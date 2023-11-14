@@ -36,45 +36,22 @@ export class ChapterListPage extends Webpage {
 			{
 				if (this.htmlContent) {
 					const $ = cheerio.load(this.htmlContent);
-					const tableRows = $("table#chapter_table tbody tr")
-					const latestAvailableChapterTitle = tableRows.first().text().trim()
+					const tableRows = $("table#chapter_table tbody tr");
+					/** chapters are listed in descending order, so the first <tr> is the latest chapter */
+					const latestAvailableChapterTitle = tableRows.first().text().trim();
 					const match = latestAvailableChapterTitle.match(this.chapterRegex);
-					const latestAvailableChapterNumber = match ? Number(match[1]) : 0;
 
-					return latestAvailableChapterNumber > lastestReadChapter
+					if (!match) {
+						throw new Error("Chapter regex match failed");
+					}
+
+					const latestAvailableChapterNumber = Number(match[1]);
+
+					return latestAvailableChapterNumber > lastestReadChapter;
 				}
 
-				return false
+				return false;
 			}
-			// const response = await axios.get(this.url, {
-			// 	headers: {
-			// 		'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.3'
-			// 	}
-			// })
-			// const html = response.data;
-			// const body = $("body")
-			// fs.writeFile(filePath, $.html(), (err) => {
-			// 	if (err) {
-			// 		console.error('An error occurred:', err);
-			// 	} else {
-			// 		console.log('File written successfully.');
-			// 	}
-			// });
-			// console.log(body.html())
-			// const tableRows = $("table#chapter_table tbody tr")
-			// console.log(`table rows ${JSON.stringify(tableRows.first(), null, 2)}`)
-
-			// if (tableRows.length === 0) {
-			// 	// panic('chapter list not found')
-			// 	return false
-			// }
-
-			// tableRows.each((_idx, el) => {
-			// 	const text = $(el).text();
-			// 	console.log(`found element ${text}`);
-			// });
-
-			// return true
 		} catch (error) {
 			console.error(`error`, error);
 			return false;
@@ -82,8 +59,4 @@ export class ChapterListPage extends Webpage {
 	}
 }
 
-export async function scrapeWebsite(url: string) {
-	// return new ChapterListPage(
-	// 	url
-	// ).hasUpdates();
-}
+export async function scrapeWebsite(url: string) {}
